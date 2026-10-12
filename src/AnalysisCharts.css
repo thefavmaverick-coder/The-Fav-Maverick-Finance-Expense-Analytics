@@ -1,0 +1,1421 @@
+
+/* =========================================================
+   THE FAV' MAVERICK — FINANCIAL ANALYSIS
+   Premium black + neon lime dashboard
+   Matches AnalysisCharts.tsx class names
+   ========================================================= */
+
+.analysis-workspace {
+  --a-bg: #0b0d0a;
+  --a-card: #121510;
+  --a-card-hover: #191d15;
+  --a-border: rgba(190, 255, 95, 0.15);
+  --a-lime: #b7ff3c;
+  --a-green: #45d6a5;
+  --a-red: #ff647c;
+  --a-blue: #65a8ff;
+  --a-purple: #c084fc;
+  --a-text: #f4f6ef;
+  --a-muted: #92998d;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  width: 100%;
+  min-width: 0;
+  color: var(--a-text);
+  animation: a-enter 0.45s ease both;
+}
+
+@keyframes a-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.analysis-workspace *,
+.analysis-workspace *::before,
+.analysis-workspace *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.analysis-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.analysis-heading > div:first-child {
+  flex: 1;
+  min-width: 220px;
+}
+
+.analysis-eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--a-lime);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1.5;
+}
+
+.analysis-heading h2 {
+  margin: 0;
+  color: var(--a-text);
+  font-size: clamp(25px, 3vw, 34px);
+  font-weight: 850;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.analysis-heading p {
+  max-width: 620px;
+  margin: 10px 0 0;
+  color: var(--a-muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* Period dropdown */
+
+.period-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 210px;
+  max-width: 100%;
+}
+
+.period-picker > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--a-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.period-picker > span svg {
+  color: var(--a-lime);
+}
+
+.period-picker select {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 35px 0 13px;
+  border: 1px solid var(--a-border);
+  border-radius: 12px;
+  outline: none;
+  background-color: var(--a-card);
+  color: var(--a-text);
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.period-picker select:hover,
+.period-picker select:focus {
+  border-color: var(--a-lime);
+}
+
+.period-picker select option {
+  background: #121510;
+  color: #f4f6ef;
+}
+
+/* =========================================================
+   SELECTED PERIOD INFORMATION
+   ========================================================= */
+
+.analysis-period-note {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--a-border);
+  border-radius: 12px;
+  background: rgba(183, 255, 60, 0.035);
+  color: var(--a-muted);
+  font-size: 11px;
+}
+
+.analysis-period-indicator {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--a-lime);
+  box-shadow: 0 0 10px rgba(183, 255, 60, 0.4);
+}
+
+.analysis-period-divider {
+  color: #62695c;
+}
+
+.analysis-reset-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-left: auto;
+  padding: 7px 11px;
+  border: 1px solid var(--a-border);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--a-lime);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 750;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.analysis-reset-button:hover {
+  border-color: var(--a-lime);
+  background: rgba(183, 255, 60, 0.09);
+}
+
+/* =========================================================
+   FOUR FINANCIAL METRIC CARDS
+   ========================================================= */
+
+.analysis-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.analysis-metric {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 13px;
+  min-width: 0;
+  overflow: hidden;
+  padding: 21px 19px;
+  border: 1px solid var(--a-border);
+  border-radius: 18px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(183, 255, 60, 0.055),
+      transparent 45%
+    ),
+    var(--a-card);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.analysis-metric:hover {
+  transform: translateY(-4px);
+  border-color: rgba(183, 255, 60, 0.38);
+  background-color: var(--a-card-hover);
+}
+
+.analysis-metric-icon {
+  display: grid;
+  place-items: center;
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  border: 1px solid var(--a-border);
+  border-radius: 13px;
+  background: rgba(183, 255, 60, 0.075);
+  color: var(--a-lime);
+}
+
+.analysis-metric > span {
+  color: var(--a-muted);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.5;
+}
+
+.analysis-metric > strong {
+  display: block;
+  max-width: 100%;
+  color: var(--a-text);
+  font-size: clamp(18px, 1.65vw, 25px);
+  font-weight: 850;
+  line-height: 1.35;
+  letter-spacing: -0.6px;
+  overflow-wrap: anywhere;
+}
+
+.analysis-metric > small {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--a-muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.income-metric .analysis-metric-icon {
+  color: var(--a-green);
+  border-color: rgba(69, 214, 165, 0.2);
+  background: rgba(69, 214, 165, 0.08);
+}
+
+.income-metric > small svg {
+  color: var(--a-green);
+}
+
+.expense-metric .analysis-metric-icon {
+  color: var(--a-red);
+  border-color: rgba(255, 100, 124, 0.2);
+  background: rgba(255, 100, 124, 0.08);
+}
+
+.expense-metric > small svg {
+  color: var(--a-red);
+}
+
+.savings-metric .analysis-metric-icon {
+  color: var(--a-lime);
+}
+
+.savings-rate-metric .analysis-metric-icon {
+  color: var(--a-blue);
+  border-color: rgba(101, 168, 255, 0.2);
+  background: rgba(101, 168, 255, 0.08);
+}
+
+/* =========================================================
+   SHARED PANEL STYLING
+   ========================================================= */
+
+.analysis-panel {
+  min-width: 0;
+  padding: 23px;
+  border: 1px solid var(--a-border);
+  border-radius: 19px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(183, 255, 60, 0.025),
+      transparent 35%
+    ),
+    var(--a-card);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.12);
+  transition: border-color 0.25s ease;
+}
+
+.analysis-panel:hover {
+  border-color: rgba(183, 255, 60, 0.25);
+}
+
+.analysis-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.analysis-panel-heading > div {
+  min-width: 0;
+}
+
+.analysis-panel-heading h3 {
+  margin: 0;
+  color: var(--a-text);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.5;
+  letter-spacing: -0.3px;
+}
+
+.analysis-panel-heading p {
+  margin: 7px 0 0;
+  color: var(--a-muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   CASHFLOW — INCOME / EXPENSE / REMAINING
+   ========================================================= */
+
+.analysis-cashflow-panel {
+  padding: 25px;
+}
+
+.analysis-cashflow-content {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin-bottom: 25px;
+}
+
+.analysis-cashflow-stat {
+  display: grid;
+  grid-template-columns: 10px minmax(0, 1fr);
+  align-content: start;
+  align-items: center;
+  column-gap: 9px;
+  row-gap: 9px;
+  min-width: 0;
+  padding: 5px 20px;
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.analysis-cashflow-stat:first-child {
+  padding-left: 0;
+}
+
+.analysis-cashflow-stat:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+.analysis-cashflow-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.income-dot {
+  background: var(--a-green);
+  box-shadow: 0 0 10px rgba(69, 214, 165, 0.25);
+}
+
+.expense-dot {
+  background: var(--a-red);
+  box-shadow: 0 0 10px rgba(255, 100, 124, 0.2);
+}
+
+.savings-dot {
+  background: var(--a-lime);
+  box-shadow: 0 0 10px rgba(183, 255, 60, 0.2);
+}
+
+.analysis-cashflow-stat > span:nth-child(2) {
+  grid-column: 2;
+  grid-row: 1;
+  color: var(--a-muted);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.analysis-cashflow-stat > strong {
+  grid-column: 1 / -1;
+  color: var(--a-text);
+  font-size: clamp(16px, 1.7vw, 23px);
+  font-weight: 850;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.analysis-cashflow-stat > small {
+  grid-column: 1 / -1;
+  color: var(--a-muted);
+  font-size: 10px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.analysis-cashflow-stat:nth-child(1) > strong {
+  color: var(--a-green);
+}
+
+.analysis-cashflow-stat:nth-child(2) > strong {
+  color: var(--a-red);
+}
+
+.analysis-cashflow-stat:nth-child(3) > strong {
+  color: var(--a-lime);
+}
+
+/* Expense progress bar */
+
+.analysis-income-track {
+  width: 100%;
+  height: 13px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.035);
+  border-radius: 100px;
+  background: #272c23;
+}
+
+.analysis-income-used {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #8ed12f, var(--a-lime));
+  box-shadow: 0 0 15px rgba(183, 255, 60, 0.2);
+  transition: width 0.5s ease;
+}
+
+.analysis-income-track-labels {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 11px;
+  color: var(--a-muted);
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.analysis-warning,
+.analysis-positive {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin: 18px 0 0;
+  padding: 13px 14px;
+  border-radius: 11px;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.analysis-warning svg,
+.analysis-positive svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.analysis-warning {
+  border: 1px solid rgba(255, 100, 124, 0.22);
+  background: rgba(255, 100, 124, 0.06);
+  color: #ffacb9;
+}
+
+.analysis-warning svg {
+  color: var(--a-red);
+}
+
+.analysis-positive {
+  border: 1px solid rgba(69, 214, 165, 0.2);
+  background: rgba(69, 214, 165, 0.05);
+  color: #9cebd0;
+}
+
+.analysis-positive svg {
+  color: var(--a-green);
+}
+
+.analysis-explanation {
+  margin: 15px 0 0;
+  color: var(--a-muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   CHART GRID AND CHART AREAS
+   ========================================================= */
+
+.analysis-chart-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: 18px;
+}
+
+.analysis-chart-grid > .analysis-panel {
+  min-width: 0;
+}
+
+.analysis-trend-panel {
+  min-width: 0;
+}
+
+.analysis-chart {
+  position: relative;
+  width: 100%;
+  height: 340px;
+  min-width: 340;
+}
+
+.analysis-bar-chart {
+  height: 360px;
+}
+
+.analysis-chart svg {
+  outline: none;
+}
+
+.analysis-chart .recharts-cartesian-grid-horizontal line,
+.analysis-chart .recharts-cartesian-grid-vertical line {
+  stroke: rgba(255, 255, 255, 0.065);
+}
+
+.analysis-chart .recharts-text {
+  fill: #92998d;
+  font-family: inherit;
+  font-size: 10px;
+}
+
+.analysis-chart .recharts-legend-item-text {
+  color: #c2c9bb !important;
+  font-size: 11px;
+}
+
+.analysis-chart .recharts-tooltip-cursor {
+  fill: rgba(183, 255, 60, 0.045);
+}
+
+.analysis-chart .recharts-pie-sector {
+  outline: none;
+}
+
+/* =========================================================
+   CATEGORY RANKING
+   ========================================================= */
+
+.analysis-category-panel {
+  min-width: 0;
+}
+
+.analysis-category-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.analysis-category-row {
+  display: grid;
+  grid-template-columns: 37px minmax(0, 1fr) minmax(100px, auto);
+  align-items: center;
+  gap: 15px;
+  padding: 17px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.055);
+}
+
+.analysis-category-row:first-child {
+  padding-top: 3px;
+}
+
+.analysis-category-row:last-child {
+  padding-bottom: 3px;
+  border-bottom: 0;
+}
+
+.analysis-category-rank {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid var(--a-border);
+  border-radius: 11px;
+  background: rgba(183, 255, 60, 0.055);
+  color: var(--a-lime);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.analysis-category-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.analysis-category-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-width: 0;
+}
+
+.analysis-category-color {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 3px;
+}
+
+.analysis-category-title > strong {
+  min-width: 0;
+  color: var(--a-text);
+  font-size: 12px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.analysis-category-percent {
+  margin-left: auto;
+  color: var(--a-muted);
+  font-size: 11px;
+  font-weight: 750;
+  white-space: nowrap;
+}
+
+.analysis-category-track {
+  width: 100%;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 100px;
+  background: #292d25;
+}
+
+.analysis-category-fill {
+  height: 100%;
+  min-width: 0;
+  border-radius: inherit;
+  transition: width 0.45s ease;
+}
+
+.analysis-category-amount {
+  color: var(--a-text);
+  font-size: 12px;
+  font-weight: 750;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   SPENDING INSIGHTS
+   ========================================================= */
+
+.analysis-insights-panel {
+  min-width: 0;
+}
+
+.analysis-insights-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.analysis-insight-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  padding: 19px;
+  border: 1px solid var(--a-border);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.012);
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.analysis-insight-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(183, 255, 60, 0.3);
+  background: rgba(183, 255, 60, 0.025);
+}
+
+.analysis-insight-icon {
+  display: grid;
+  place-items: center;
+  width: 41px;
+  height: 41px;
+  border: 1px solid var(--a-border);
+  border-radius: 12px;
+  background: rgba(183, 255, 60, 0.065);
+  color: var(--a-lime);
+}
+
+.analysis-insight-card > span {
+  color: var(--a-muted);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.6;
+}
+
+.analysis-insight-card > strong {
+  max-width: 100%;
+  color: var(--a-text);
+  font-size: clamp(15px, 1.5vw, 20px);
+  font-weight: 850;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.analysis-insight-card > b {
+  max-width: 100%;
+  color: var(--a-lime);
+  font-size: 13px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+}
+
+.analysis-insight-card > small {
+  color: var(--a-muted);
+  font-size: 10px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.analysis-good-value {
+  color: var(--a-green) !important;
+}
+
+.analysis-bad-value {
+  color: var(--a-red) !important;
+}
+
+/* =========================================================
+   EMPTY STATES
+   ========================================================= */
+
+.analysis-empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 240px;
+  padding: 25px 16px;
+  color: var(--a-muted);
+  text-align: center;
+}
+
+.analysis-empty > svg {
+  color: var(--a-lime);
+  opacity: 0.85;
+}
+
+.analysis-empty > strong {
+  color: var(--a-text);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.analysis-empty > span {
+  max-width: 300px;
+  color: var(--a-muted);
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.analysis-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 2px 2px 0;
+  color: var(--a-muted);
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   ACCESSIBILITY AND FOCUS
+   ========================================================= */
+
+.analysis-workspace button:focus-visible,
+.analysis-workspace select:focus-visible {
+  outline: 2px solid var(--a-lime);
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .analysis-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analysis-chart-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .analysis-insights-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+  .analysis-workspace {
+    gap: 16px;
+  }
+
+  .analysis-heading {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .analysis-heading h2 {
+    font-size: 26px;
+  }
+
+  .analysis-heading p {
+    font-size: 12px;
+  }
+
+  .period-picker {
+    width: 100%;
+  }
+
+  .analysis-period-note {
+    gap: 7px;
+    padding: 10px;
+    font-size: 10px;
+  }
+
+  .analysis-reset-button {
+    padding: 7px 9px;
+    font-size: 10px;
+  }
+
+  .analysis-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .analysis-metric {
+    gap: 10px;
+    padding: 15px;
+    border-radius: 15px;
+  }
+
+  .analysis-metric-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+  }
+
+  .analysis-metric > span {
+    font-size: 11px;
+  }
+
+  .analysis-metric > strong {
+    font-size: clamp(16px, 4vw, 21px);
+    letter-spacing: -0.4px;
+  }
+
+  .analysis-metric > small {
+    align-items: flex-start;
+    font-size: 9px;
+  }
+
+  .analysis-panel,
+  .analysis-cashflow-panel {
+    padding: 16px;
+    border-radius: 16px;
+  }
+
+  .analysis-panel-heading {
+    margin-bottom: 17px;
+  }
+
+  .analysis-panel-heading h3 {
+    font-size: 14px;
+  }
+
+  .analysis-panel-heading p {
+    font-size: 10px;
+  }
+
+  .analysis-cashflow-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    margin-bottom: 20px;
+  }
+
+  .analysis-cashflow-stat {
+    grid-template-columns: 10px minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 9px;
+    row-gap: 5px;
+    padding: 14px 0;
+    border-right: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .analysis-cashflow-stat:first-child {
+    padding-top: 0;
+  }
+
+  .analysis-cashflow-stat:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .analysis-cashflow-stat > span:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .analysis-cashflow-stat > strong {
+    grid-column: 3;
+    grid-row: 1;
+    font-size: 14px;
+    text-align: right;
+  }
+
+  .analysis-cashflow-stat > small {
+    grid-column: 2 / -1;
+    grid-row: 2;
+  }
+
+  .analysis-income-track {
+    height: 10px;
+  }
+
+  .analysis-income-track-labels {
+    font-size: 9px;
+  }
+
+  .analysis-chart {
+    height: 275px;
+  }
+
+  .analysis-bar-chart {
+    height: 330px;
+  }
+
+  .analysis-category-row {
+    grid-template-columns: 30px minmax(0, 1fr);
+    gap: 10px;
+    padding: 14px 0;
+  }
+
+  .analysis-category-rank {
+    width: 29px;
+    height: 29px;
+    border-radius: 9px;
+    font-size: 10px;
+  }
+
+  .analysis-category-details {
+    grid-column: 2;
+  }
+
+  .analysis-category-amount {
+    grid-column: 2;
+    text-align: left;
+    font-size: 11px;
+  }
+
+  .analysis-category-title > strong {
+    font-size: 11px;
+  }
+
+  .analysis-insights-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .analysis-insight-card {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    align-items: center;
+    column-gap: 12px;
+    row-gap: 5px;
+    padding: 14px;
+  }
+
+  .analysis-insight-icon {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    align-self: start;
+  }
+
+  .analysis-insight-card > span,
+  .analysis-insight-card > strong,
+  .analysis-insight-card > b,
+  .analysis-insight-card > small {
+    grid-column: 2;
+  }
+
+  .analysis-insight-card > strong {
+    font-size: 17px;
+  }
+
+  .analysis-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+/* =========================================================
+   EXTRA SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 370px) {
+  .analysis-heading h2 {
+    font-size: 23px;
+  }
+
+  .analysis-period-note {
+    align-items: flex-start;
+  }
+
+  .analysis-period-divider {
+    display: none;
+  }
+
+  .analysis-reset-button {
+    margin-left: 0;
+  }
+
+  .analysis-metrics {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .analysis-metric {
+    display: grid;
+    grid-template-columns: 38px minmax(0, 1fr);
+    column-gap: 12px;
+    row-gap: 6px;
+  }
+
+  .analysis-metric-icon {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+  }
+
+  .analysis-metric > span,
+  .analysis-metric > strong,
+  .analysis-metric > small {
+    grid-column: 2;
+  }
+
+  .analysis-metric > strong {
+    font-size: 22px;
+  }
+
+  .analysis-panel,
+  .analysis-cashflow-panel {
+    padding: 13px;
+  }
+
+  .analysis-chart {
+    height: 245px;
+  }
+
+  .analysis-bar-chart {
+    height: 300px;
+  }
+}
+
+/* Respect reduced-motion preferences */
+
+@media (prefers-reduced-motion: reduce) {
+  .analysis-workspace,
+  .analysis-workspace *,
+  .analysis-workspace *::before,
+  .analysis-workspace *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================
+   FINANCIAL STATUS COLORS
+   Red = Expenses / Loss
+   Green = Income
+   Neon lime = Savings
+   ========================================= */
+
+/* Expense metric — clearly red */
+.analysis-workspace .expense-metric {
+  border-color: rgba(255, 65, 85, 0.4);
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(255, 45, 65, 0.13),
+      transparent 65%
+    ),
+    #171011;
+}
+
+.analysis-workspace .expense-metric .analysis-metric-icon {
+  color: #ff4057;
+  background: rgba(255, 45, 65, 0.13);
+  border-color: rgba(255, 65, 85, 0.4);
+}
+
+.analysis-workspace .expense-metric > strong {
+  color: #ff5268;
+}
+
+.analysis-workspace .expense-metric > small,
+.analysis-workspace .expense-metric > small svg {
+  color: #ff7888;
+}
+
+/* Expenses in the cashflow summary */
+.analysis-workspace
+.analysis-cashflow-stat:nth-child(2) > strong {
+  color: #ff4057;
+}
+
+/* Expense progress bar */
+.analysis-workspace .analysis-income-used {
+  background: linear-gradient(90deg, #e32643, #ff4057, #ff7181);
+  box-shadow: 0 0 14px rgba(255, 45, 65, 0.3);
+}
+
+/* Warning when expenses exceed income */
+.analysis-workspace .analysis-warning {
+  color: #ff9ba8;
+  background: rgba(255, 45, 65, 0.12);
+  border-color: rgba(255, 65, 85, 0.4);
+}
+
+.analysis-workspace .analysis-warning svg {
+  color: #ff4057;
+}
+
+/* Negative remaining balance = loss */
+.analysis-workspace .savings-metric > strong:has(+ small) {
+  color: var(--a-text);
+}
+
+/* Negative balance in the insight card */
+.analysis-workspace .analysis-bad-value {
+  color: #ff4057 !important;
+}
+
+/* Positive remaining balance = savings */
+.analysis-workspace .analysis-good-value {
+  color: #45d6a5 !important;
+}
+
+/* Expense line in monthly chart */
+.analysis-workspace .recharts-line path {
+  transition: stroke 0.2s ease;
+}
+
+/* Clear red expense category amounts */
+.analysis-workspace .analysis-category-row
+.analysis-category-amount {
+  color: #ff7888;
+}
+
+/* Keep expense category percentages visible */
+.analysis-workspace .analysis-category-percent {
+  color: #ff8a99;
+}
+
+/* Expense metric hover */
+.analysis-workspace .expense-metric:hover {
+  border-color: #ff4057;
+  box-shadow: 0 8px 28px rgba(255, 45, 65, 0.08);
+}
+
+
+/* ===== CLEAR CHART LABELS & FINANCIAL COLORS ===== */
+
+.analysis-workspace {
+  --chart-income: #45d6a5;
+  --chart-expense: #ff4057;
+}
+
+/* Chart headings and axis labels */
+.analysis-workspace .recharts-cartesian-axis-tick-value {
+  fill: #d6dbe5 !important;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.analysis-workspace .recharts-cartesian-axis-line,
+.analysis-workspace .recharts-cartesian-axis-tick-line {
+  stroke: #3b414d !important;
+}
+
+/* Chart grid: subtle, not distracting */
+.analysis-workspace .recharts-cartesian-grid line {
+  stroke: rgba(180, 190, 205, 0.12) !important;
+}
+
+/* Income line and bars */
+.analysis-workspace .income-chart,
+.analysis-workspace .income-chart .recharts-line {
+  stroke: var(--chart-income);
+}
+
+/* Expense line and bars */
+.analysis-workspace .expense-chart,
+.analysis-workspace .expense-chart .recharts-line {
+  stroke: var(--chart-expense);
+}
+
+/* Bar-chart value labels */
+.analysis-workspace .recharts-label-list text {
+  fill: #f5f7fa !important;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Chart tooltip */
+.analysis-workspace .recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.analysis-workspace .recharts-default-tooltip {
+  background: #171b23 !important;
+  border: 1px solid #3a414e !important;
+  border-radius: 10px !important;
+  padding: 10px 13px !important;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+}
+
+.analysis-workspace .recharts-tooltip-label {
+  color: #ffffff !important;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.analysis-workspace .recharts-tooltip-item {
+  font-size: 13px !important;
+  font-weight: 600 !important;
+}
+
+/* Expense summary values */
+.analysis-workspace .expense-metric > strong,
+.analysis-workspace .analysis-cashflow-stat:nth-child(2) > strong {
+  color: var(--chart-expense) !important;
+}
+
+/* Income summary values */
+.analysis-workspace .income-metric > strong {
+  color: var(--chart-income) !important;
+}
+
+/* Make chart panels easier to read */
+.analysis-workspace .analysis-panel,
+.analysis-workspace .analysis-category-panel {
+  overflow: visible;
+}
+
+.analysis-workspace .analysis-chart {
+  min-width: 0;
+  min-height: 280px;
+}
+
+.analysis-workspace .recharts-responsive-container {
+  min-width: 0;
+  overflow: visible;
+}
+
+.analysis-download-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 16px;
+  border: 1px solid #b7ff3c;
+  border-radius: 10px;
+  background: #b7ff3c;
+  color: #080b10;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.analysis-download-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.analysis-download-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+
+@media (max-width: 700px) {
+  .analysis-download-button {
+    width: 100%;
+  }
+}
+
+
+.analysis-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.analysis-heading-copy {
+  flex: 1 1 300px;
+  min-width: 0;
+}
+
+.analysis-heading-actions {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.analysis-download-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 16px;
+  border: 1px solid #b7ff3c;
+  border-radius: 10px;
+  background: #b7ff3c;
+  color: #080b10;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.analysis-download-button:hover {
+  opacity: 0.9;
+}
+
+.analysis-download-button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+@media (max-width: 700px) {
+  .analysis-heading-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .analysis-heading-actions .period-picker,
+  .analysis-heading-actions .analysis-download-button {
+    width: 100%;
+  }
+}

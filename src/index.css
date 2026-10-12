@@ -1,0 +1,34 @@
+
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800;900&display=swap");
+
+:root {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: #f4f6f0;
+  background: #0b0d0b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+}
+
+* { box-sizing: border-box; }
+
+html { min-width: 320px; min-height: 100%; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+button, input, select, textarea { font: inherit; }
+
+button { -webkit-tap-highlight-color: transparent; }
+
+::selection { background: #c7f548; color: #10130a; }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: #101210; }
+::-webkit-scrollbar-thumb { background: #41473b; border-radius: 20px; }
+::-webkit-scrollbar-thumb:hover { background: #c7f548; }
